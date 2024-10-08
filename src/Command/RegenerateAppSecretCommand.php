@@ -1,49 +1,72 @@
 <?php
 
+/**
+ * Symfony Command for regenerating the App Secret
+ *
+ * PHP version 8.3
+ *
+ * @category  Command
+ * @package   PDF2CSV
+ * @author    Benjamin Owen <benjamin@projecttiy.com>
+ * @copyright 2024 Benjamin Owen
+ * @license   https://mit-license.org/ MIT
+ * @version   CVS: $Id:$
+ * @link      https://github.com/benowe1717/pdf2csv
+ **/
+
 namespace App\Command;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Symfony Command for regenerating the App Secret
+ *
+ * @category  Command
+ * @package   PDF2CSV
+ * @author    Benjamin Owen <benjamin@projecttiy.com>
+ * @copyright 2024 Benjamin Owen
+ * @license   https://mit-license.org/ MIT
+ * @version   Release: 0.0.1
+ * @link      https://github.com/benowe1717/pdf2csv
+ **/
 #[AsCommand(
     name: 'app:regenerate-app-secret',
-    description: 'Add a short description for your command',
+    description: 'Regenerate the APP_SECRET in case it gets leaked',
 )]
 class RegenerateAppSecretCommand extends Command
 {
+    /**
+     * RegenerateAppSecretCommand constructor
+     **/
     public function __construct()
     {
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
-    }
-
+    /**
+     * Method to control what happens when running the command
+     *
+     * @param InputInterface  $input  The optional parameters passed to the command
+     * @param OutputInterface $output The returned value of the command
+     *
+     * @return int
+     **/
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
-        }
+        $secret = bin2hex(random_bytes(16));
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
+        $r = shell_exec(
+            'sed -i -E "s/^APP_SECRET=.{32}$/APP_SECRET=' . $secret . '/" .env'
+        );
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success('New APP_SECRET was generated: ' . $secret);
 
-        return Command::SUCCESS;
+        return COMMAND::SUCCESS;
     }
 }
