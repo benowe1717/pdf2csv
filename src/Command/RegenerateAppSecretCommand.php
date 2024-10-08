@@ -36,15 +36,29 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'app:regenerate-app-secret',
     description: 'Regenerate the APP_SECRET in case it gets leaked',
+    hidden: false
 )]
 class RegenerateAppSecretCommand extends Command
 {
     /**
      * RegenerateAppSecretCommand constructor
      **/
-    public function __construct()
+    // public function __construct()
+    // {
+    //     parent::__construct();
+    // }
+
+    /**
+     * Configure the command
+     *
+     * @return void
+     **/
+    protected function configure(): void
     {
-        parent::__construct();
+        $this
+            ->setName('app:regenerate-app-secret')
+            ->setDescription('Regenerate the APP_SECRET in case it gets leaked')
+            ->setHelp('No parameters necessary, just run as is');
     }
 
     /**
@@ -67,6 +81,6 @@ class RegenerateAppSecretCommand extends Command
 
         $io->success('New APP_SECRET was generated: ' . $secret);
 
-        return COMMAND::SUCCESS;
+        return Command::SUCCESS;
     }
 }
