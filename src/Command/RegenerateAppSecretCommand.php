@@ -43,10 +43,10 @@ class RegenerateAppSecretCommand extends Command
     /**
      * RegenerateAppSecretCommand constructor
      **/
-    // public function __construct()
-    // {
-    //     parent::__construct();
-    // }
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Configure the command
