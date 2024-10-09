@@ -19,7 +19,7 @@
         <div id="navcol-1" class="collapse navbar-collapse">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link bg-primary-md {{ route == 'app_home' ? 'active' }}" href="/">Home</a>
+                    <a class="nav-link {{ route == 'app_home' ? 'active' }}" href="/">Home</a>
                 </li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
