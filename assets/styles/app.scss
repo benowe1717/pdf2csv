@@ -19,4 +19,8 @@ $body-color: $dark;
 $body-bg-dark: $dark;
 $body-color-dark: $light;
 
+.nav-link.active {
+    border-bottom: 2px solid var(--bs-highlight-color);
+}
+
 @import '../../vendor/twbs/bootstrap/scss/bootstrap';
