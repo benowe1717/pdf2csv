@@ -1,0 +1,3 @@
+php bin/console sass:build
+php bin/console asset-map:compile
+php bin/console cache:clear
