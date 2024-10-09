@@ -1,7 +1,12 @@
 /* assets/styles/app.scss */
 
-$red: #fc030b;
+/* $red: #fc030b; */
+/**/
+/* body { */
+/*   background: $red; */
+/* } */
 
-body {
-  background: $red;
-}
+/* Override some Bootstrap variables */
+$red: #FB4040;
+
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';
