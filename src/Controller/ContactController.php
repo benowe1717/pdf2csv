@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Symfony Controller for / Route
+ * Symfony Controller for /contact Route
  *
  * PHP version 8.3
  *
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Symfony Controller for / Route
+ * Symfony Controller for /contact Route
  *
  * PHP version 8.3
  *
@@ -33,18 +33,18 @@ use Symfony\Component\Routing\Attribute\Route;
  * @version   Release: 0.0.1
  * @link      https://github.com/benowe1717/pdf2csv
  **/
-class HomeController extends AbstractController
+class ContactController extends AbstractController
 {
     /**
-     * /app_home Route
+     * /app_contact Route
      *
      * @return Response
      **/
-    #[Route('/', name: 'app_home', methods: ['GET'])]
+    #[Route('/contact', name: 'app_contact', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render(
-            'home/index.html.twig',
+            'contact/index.html.twig',
             [
                 'controller_name' => 'HomeController',
             ]

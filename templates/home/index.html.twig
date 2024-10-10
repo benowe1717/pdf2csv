@@ -11,10 +11,8 @@
             Welcome to your PDF to CSV converter. This tool extracts table-like data from a PDF file and converts it into CSV format for use with other tools like Excel. This means no more copy/pasting out of PDFs and manually editing values. To use this tool, click on the PDF to CSV button below or use the PDF to CSV link on the top navigation bar to get started. If you are having trouble, please click on the Need Help? button below or use the Contact link on the top navigation bar.
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            {# <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ path('app_pdftocsv') }}">PDF to CSV</a>
-            <a class="btn btn-secondary btn-lg px-4 gap-3" href="{{ path('app_contact') }}">Need Help?</a> #}
-            <a class="btn btn-primary btn-lg px-4 gap-3 disabled" href="/pdf2csv">PDF to CSV</a>
-            <a class="btn btn-secondary btn-lg px-4 gap-3 disabled" href="/contact">Need Help?</a>
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ path('app_pdftocsv') }}">PDF to CSV</a>
+            <a class="btn btn-secondary btn-lg px-4 gap-3" href="{{ path('app_contact') }}">Need Help?</a>
         </div>
         {% else %}
         <p class="lead mb-4">

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Symfony Controller for / Route
+ * Symfony Controller for /pdf2csv Route
  *
  * PHP version 8.3
  *
@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Symfony Controller for / Route
+ * Symfony Controller for /pdf2csv Route
  *
  * PHP version 8.3
  *
@@ -33,20 +33,20 @@ use Symfony\Component\Routing\Attribute\Route;
  * @version   Release: 0.0.1
  * @link      https://github.com/benowe1717/pdf2csv
  **/
-class HomeController extends AbstractController
+class PdfToCsvController extends AbstractController
 {
     /**
-     * /app_home Route
+     * /app_pdftocsv Route
      *
      * @return Response
      **/
-    #[Route('/', name: 'app_home', methods: ['GET'])]
+    #[Route('/pdf2csv', name: 'app_pdftocsv', methods: ['GET', 'POST'])]
     public function index(): Response
     {
         return $this->render(
-            'home/index.html.twig',
+            'pdf_to_csv/index.html.twig',
             [
-                'controller_name' => 'HomeController',
+                'controller_name' => 'PdfToCsvController',
             ]
         );
     }

@@ -23,12 +23,10 @@
                 </li>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
-                    {# <a class="nav-link {{ route == 'app_pdftocsv' ? 'active' }}" href="{{ path('app_pdftocsv') }}">PDF To CSV</a> #}
-                    <a class="nav-link {{ route == 'app_pdftocsv' ? 'active' }} disabled" href="/pdftocsv">PDF To CSV</a>
+                    <a class="nav-link {{ route == 'app_pdftocsv' ? 'active' }}" href="{{ path('app_pdftocsv') }}">PDF To CSV</a>
                 </li>
                 <li class="nav-item">
-                    {# <a class="nav-link {{ route == 'app_contact' ? 'active' }}" href="{{ path('app_contact') }}">Contact</a> #}
-                    <a class="nav-link {{ route == 'app_contact' ? 'active' }} disabled" href="/contact">Contact</a>
+                    <a class="nav-link {{ route == 'app_contact' ? 'active' }}" href="{{ path('app_contact') }}">Contact</a>
                 </li>
                 {% endif %}
             </ul>
