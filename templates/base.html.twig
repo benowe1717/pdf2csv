@@ -13,7 +13,7 @@
     </head>
     <body class="d-flex flex-column min-vh-100">
 
-        <header>
+        <header class="bg-body-tertiary">
             {{ include('_navbar.html.twig') }}
         </header>
 
@@ -21,7 +21,7 @@
             {% block body %}{% endblock %}
         </main>
 
-        <footer class="footer mt-auto py-3 border-top">
+        <footer class="footer mt-auto py-3 border-top bg-body-tertiary">
             {{ include('_footer.html.twig') }}
         </footer>
 
