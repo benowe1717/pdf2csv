@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PdfToCsvController!{% endblock %}
+{% block title %}PDF2CSV{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">PDF To CSV Converter</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+            To use the PDF To CSV Converter, set the Page Number to the correct page that your table exists on inside of the PDF. For example, if you have a 4 page PDF and the table of data you want extracted is on the <b>last page</b>, then you would set the page number to <b>4</b>. Once you have set your page number, upload the PDF file and click the Convert! button. The tool will do its work and give you a download option once the conversion is complete.
+        </p>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="col-lg-6 mx-auto my-5 border rounded p-3">
+        <form method="post" action="">
+            <div class="mb-3 text-start">
+                <label class="form-label" for="">What page number does your table exist on?</label>
+                <input class="form-control" name="pages" value="1" type="number" placeholder="1" min="1">
+            </div>
+            <div class="mb-3 text-start">
+                <input class="form-control" type="file">
+            </div>
+            <div class="mb-3 text-start">
+                <button class="btn btn-primary disabled" type="submit">Convert!</button>
+            </div>
+        </form>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/benjamin/Documents/github/pdf2csv/src/Controller/PdfToCsvController.php</code></li>
-        <li>Your template at <code>/home/benjamin/Documents/github/pdf2csv/templates/pdf_to_csv/index.html.twig</code></li>
-    </ul>
 </div>
 {% endblock %}

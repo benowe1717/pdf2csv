@@ -11,9 +11,19 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body>
-        {{ include('_navbar.html.twig') }}
-        {% block body %}{% endblock %}
-        {{ include('_footer.html.twig') }}
+    <body class="d-flex flex-column min-vh-100">
+
+        <header>
+            {{ include('_navbar.html.twig') }}
+        </header>
+
+        <main class="flex-shrink-0">
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="footer mt-auto py-3 border-top">
+            {{ include('_footer.html.twig') }}
+        </footer>
+
     </body>
 </html>
