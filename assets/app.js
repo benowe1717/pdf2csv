@@ -6,6 +6,6 @@
  * which should already be in your base.html.twig.
  */
 import 'bootstrap';
-import './theme_switcher.js';
+// import './theme_switcher.js';
 
 // console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
