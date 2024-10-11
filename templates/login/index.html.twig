@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Login</h1>
+    <div class="col-lg-6 mx-auto my-5 border rounded p-3 text-start">
+        <form method="post" action="">
+            <div class="mb-3">
+                <input class="form-control" type="text" placeholder="Email" disabled>
+            </div>
+            <div class="mb-3">
+                <input class="form-control" type="password" placeholder="Password" disabled>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary disabled" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

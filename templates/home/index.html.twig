@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">PDF To CSV</h1>
+    <div class="col-lg-6 mx-auto">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p class="lead mb-4">
+            Welcome to your PDF to CSV converter. This tool extracts table-like data from a PDF file and converts it into CSV format for use with other tools like Excel. This means no more copy/pasting out of PDFs and manually editing values. To use this tool, click on the PDF to CSV button below or use the PDF to CSV link on the top navigation bar to get started. If you are having trouble, please click on the Need Help? button below or use the Contact link on the top navigation bar.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ path('app_pdftocsv') }}">PDF to CSV</a>
+            <a class="btn btn-secondary btn-lg px-4 gap-3" href="{{ path('app_contact') }}">Need Help?</a>
+        </div>
+        {% else %}
+        <p class="lead mb-4">
+            Welcome to your PDF to CSV converter. This tool extracts table-like data from a PDF file and converts it into CSV format for use with other tools like Excel. This means no more copy/pasting out of PDFs and manually editing values. To use this tool, please use the Sign In button below or in the top right, then click on the PDF to CSV link on the top navigation bar.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a class="btn btn-primary btn-lg px-4 gap-3" href="{{ path('app_login') }}">Sign In</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
