@@ -33,7 +33,7 @@
 
             <div class="btn-group" role="group" aria-label="Button group with sign in and theme changing">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <a class="btn btn-primary" type="button" href="{{ path('app_logout') }}">Sign Out</a>
+                <a class="btn btn-danger" type="button" href="{{ path('app_logout') }}">Sign Out</a>
                 {% else %}
                 <a class="btn btn-primary" type="button" href="{{ path('app_login') }}">Sign In</a>
                 {% endif %}
