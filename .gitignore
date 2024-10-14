@@ -25,3 +25,7 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+/.docker-env
+/.docker-run
+/data
