@@ -3,20 +3,26 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
+{% if error %}
+<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold text-body-emphasis">Login</h1>
     <div class="col-lg-6 mx-auto my-5 border rounded p-3 text-start">
-        <form method="post" action="">
+        <form method="post" action="{{ path('app_login') }}">
             <div class="mb-3">
-                <input class="form-control" type="text" placeholder="Email" disabled>
+                <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Email" required autofocus>
             </div>
             <div class="mb-3">
-                <input class="form-control" type="password" placeholder="Password" disabled>
+                <input class="form-control" type="password" id="password" name="_password" placeholder="Password" required>
             </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <div class="mb-3">
-                <button class="btn btn-primary disabled" type="submit">Login</button>
+                <button class="btn btn-primary" type="submit">Login</button>
             </div>
         </form>
     </div>
 </div>
+
 {% endblock %}
