@@ -4,6 +4,8 @@ PHP=`which php`
 COMPOSER=`which composer`
 
 BINARIES=("php" "composer")
+WORKERS=("async")
+TIME_LIMIT="3600"
 
 APP_ENV="prod"
 
@@ -22,3 +24,8 @@ $PHP ./bin/console importmap:install
 $PHP ./bin/console sass:build
 $PHP ./bin/console asset-map:compile
 $PHP ./bin/console cache:clear
+
+# Now start up workers to consume the messages
+for worker in "${WORKERS[@]}"; do
+    ./start_worker.sh "$worker" "$TIME_LIMIT"
+done

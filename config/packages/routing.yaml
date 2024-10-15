@@ -8,3 +8,4 @@ when@prod:
     framework:
         router:
             strict_requirements: null
+            default_uri: 'https://pdf2csv.projecttiy.com'

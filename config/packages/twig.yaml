@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
 
+    paths:
+        '%kernel.project_dir%/assets/styles': styles
+
 when@test:
     twig:
         strict_variables: true

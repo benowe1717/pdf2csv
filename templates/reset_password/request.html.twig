@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forgot password?{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1>Forgot your password?</h1>
+
+    <div class="col-lg-6 mx-auto my-5 border rounded p-3 text-start">
+        {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger">
+            <p>{{ flash_error }}</p>
+        </div>
+        {% endfor %}
+        <form method="{{ requestForm.vars.method }}" id="{{ requestForm.vars.id }}" name="{{ requestForm.vars.name }}" action="{{ requestForm.vars.action }}">
+            <div class="mb-3">
+                <label class="form-label" for="{{ requestForm.email.vars.id }}">{{ requestForm.email.vars.label }}</label>
+                <input class="form-control" id="{{ requestForm.email.vars.id }}" name="{{ requestForm.email.vars.full_name }}" value="{{ requestForm.email.vars.value }}" type="email" placeholder="Email" autofocus required>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-danger" id="{{ requestForm.submit.vars.id }}" name="{{ requestForm.submit.vars.full_name }}">{{ requestForm.submit.vars.label }}</button>
+            </div>
+            <input id="{{ requestForm.children._token.vars.id }}" name="{{ requestForm.children._token.vars.full_name }}" value="{{ requestForm.children._token.vars.value }}" type="hidden">
+        </form>
+    </div>
+
+</div>
+{% endblock %}
