@@ -3,10 +3,28 @@
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
+<div class="px-4 py-5 my-5 text-center">
     <h1>Reset your password</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    <div class="col-lg-6 mx-auto my-5 border rounded p-3 text-start">
+        {% for error in app.flashes('resetPasswordErrors') %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+        {% endfor %}
+        <form method="{{ resetForm.vars.method }}" id="{{ resetForm.vars.id }}" name="{{ resetForm.vars.name }}" action="{{ resetForm.vars.action }}">
+            {% for field in resetForm.plainPassword %}
+            <div class="mb-3">
+                <label class="form-label" for="{{ field.vars.id }}">{{ field.vars.label }}</label>
+                <input class="form-control" id="{{ field.vars.id }}" name="{{ field.vars.full_name }}" value="{{ field.vars.value }}" type="password" placeholder="{{ field.vars.name == 'first' ? 'Password' : 'Repeat password' }}" min="12" max="4096" {{ field.vars.name == 'first' ? 'autofocus' }} required>
+            </div>
+            {% endfor %}
+            <div class="mb-3">
+                <button class="btn btn-danger" id="{{ resetForm.submit.vars.id }}" name="{{ resetForm.submit.vars.full_name }}">{{ resetForm.submit.vars.label }}</button>
+            </div>
+            <input id="{{ resetForm.children._token.vars.id }}" name="{{ resetForm.children._token.vars.full_name }}" value="{{ resetForm.children._token.vars.value }}" type="hidden">
+        </form>
+    </div>
+
+</div>
 {% endblock %}

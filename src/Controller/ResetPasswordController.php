@@ -192,6 +192,12 @@ class ResetPasswordController extends AbstractController
         $form = $this->createForm(ChangePasswordFormType::class);
         $form->handleRequest($request);
 
+        // Get and register errors, if there are any
+        $errors = $form->getErrors(true);
+        foreach ($errors as $error) {
+            $this->addFlash('resetPasswordErrors', $error->getMessage());
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             // A password reset token should be used only once, remove it.
             $this->resetPasswordHelper->removeResetRequest($token);
@@ -210,7 +216,11 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
-            return $this->redirectToRoute('app_resetpassword');
+            $this->addFlash(
+                'resetPasswordSuccess',
+                'Password updated successfully!'
+            );
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render(
