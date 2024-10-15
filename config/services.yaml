@@ -25,3 +25,7 @@ services:
     App\Command\RegenerateAppSecretCommand:
         tags:
             - { name: 'console.command', command: 'app:regenerate-app-secret'}
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
