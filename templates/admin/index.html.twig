@@ -5,6 +5,21 @@
 {% block body %}
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold text-body-emphasis mb-3">User Administration</h1>
+
+    <div class="col-lg-6 mx-auto text-start">
+        {% for error in app.flashes('createFormErrors') %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+        {% endfor %}
+
+        {% for msg in app.flashes('createFormSuccess') %}
+        <div class="alert alert-success">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
     <div class="col-lg-6 mx-auto">
         <ul class="nav nav-tabs flex-column flex-md-row" id="adminTabs" role="tablist">
             <li class="nav-item text-sm-center" role="presentation">

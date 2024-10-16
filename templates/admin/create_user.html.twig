@@ -1,8 +1,12 @@
 <div class="px-3 py-3 justify-content-start text-start">
-    <form method="post" action="">
+    <form method="{{ create_user_form.vars.method }}" id="{{ create_user_form.vars.id }}" name="{{ create_user_form.vars.full_name }}" action="{{ create_user_form.vars.action }}">
         <div class="mb-3">
-            <label class="form-label">Email Address</label>
-            <input class="form-control" type="email" autofocus required>
+            <label class="form-label" for="{{ create_user_form.email.vars.id }}">{{ create_user_form.email.vars.label }}</label>
+            <input class="form-control" id="{{ create_user_form.email.vars.id }}" name="{{ create_user_form.email.vars.full_name }}" value="{{ create_user_form.email.vars.value }}" type="email" placeholder="Email" autofocus required>
         </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" id="{{ create_user_form.submit.vars.id }}" name="{{ create_user_form.submit.vars.full_name }}" type="submit">{{ create_user_form.submit.vars.label }}</button>
+        </div>
+        <input id="{{ create_user_form._token.vars.id }}" name="{{ create_user_form._token.vars.full_name }}" value="{{ create_user_form._token.vars.value }}" type="hidden">
     </form>
 </div>
