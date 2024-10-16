@@ -1,8 +1,16 @@
 <div class="px-3 py-3 justify-content-start text-start">
-    <form method="post" action="">
+    <form method="{{ delete_user_form.vars.method }}" id="{{ delete_user_form.vars.id }}" name="{{ delete_user_form.vars.full_name }}" action="{{ delete_user_form.vars.action }}">
         <div class="mb-3">
-            <label class="form-label">Email Address</label>
-            <input class="form-control" type="email" autofocus required>
+            <label class="form-label" for="{{ delete_user_form.email.vars.id }}">{{ delete_user_form.email.vars.label }}</label>
+            <select class="form-select" id="{{ delete_user_form.email.vars.id }}" name="{{ delete_user_form.email.vars.full_name }}">
+                {% for choice in delete_user_form.email.vars.choices %}
+                <option value="{{ choice.value }}">{{ choice.label }}</option>
+                {% endfor %}
+            </select>
         </div>
+        <div class="mb-3">
+            <button class="btn btn-danger" id="{{ delete_user_form.submit.vars.id }}" name="{{ delete_user_form.submit.vars.full_name }}" type="submit">{{ delete_user_form.submit.vars.label }}</button>
+        </div>
+        <input id="{{ delete_user_form._token.vars.id }}" name="{{ delete_user_form._token.vars.full_name }}" value="{{ delete_user_form._token.vars.value }}" type="hidden">
     </form>
 </div>
