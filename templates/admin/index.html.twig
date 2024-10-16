@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Admin{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis mb-3">User Administration</h1>
+    <div class="col-lg-6 mx-auto">
+        <ul class="nav nav-tabs flex-column flex-md-row" id="adminTabs" role="tablist">
+            <li class="nav-item text-sm-center" role="presentation">
+                <button class="nav-link active" id="create-user" data-bs-toggle="tab" data-bs-target="#create-user-pane" type="button" role="tab" aria-controls="create-user-pane" aria-selected="true">Create User?</button>
+            </li>
+            <li class="nav-item text-sm-center" role="presentation">
+                <button class="nav-link" id="delete-user" data-bs-toggle="tab" data-bs-target="#delete-user-pane" type="button" role="tab" aria-controls="delete-user-pane" aria-selected="false">Delete User?</button>
+            </li>
+            <li class="nav-item text-sm-center" role="presentation">
+                <button class="nav-link" id="reset-password" data-bs-toggle="tab" data-bs-target="#reset-password-pane" type="button" role="tab" aria-controls="reset-password-pane" aria-selected="false">Reset Password?</button>
+            </li>
+        </ul>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/benjamin/Documents/github/pdf2csv/src/Controller/AdminController.php</code></li>
-        <li>Your template at <code>/home/benjamin/Documents/github/pdf2csv/templates/admin/index.html.twig</code></li>
-    </ul>
+        <div class="tab-content" id="adminTabsContent">
+            <div class="tab-pane fade show active" id="create-user-pane" role="tabpanel" aria-labelledby="create-user" tabindex="0">{{ include('admin/create_user.html.twig') }}</div>
+            <div class="tab-pane fade" id="delete-user-pane" role="tabpanel" aria-labelledby="delete-user" tabindex="0">{{ include('admin/delete_user.html.twig') }}</div>
+            <div class="tab-pane fade" id="reset-password-pane" role="tabpanel" aria-labelledby="reset-password" tabindex="0">{{ include('admin/reset_password.html.twig') }}</div>
+        </div>
+    </div>
 </div>
 {% endblock %}
