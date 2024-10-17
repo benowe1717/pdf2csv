@@ -16,6 +16,9 @@
 
 namespace App\Service;
 
+use Exception;
+use Spatie\PdfToText\Pdf;
+
 /**
  * Symfony Service for converting PDFs to CSVs
  *
@@ -38,6 +41,10 @@ class PdfToCsv
     private string $pdfFile;
 
     private string $pdfType;
+
+    private int $firstPage;
+
+    private mixed $message;
 
     /**
      * Getter for $pdfFile property
@@ -105,5 +112,86 @@ class PdfToCsv
     public function getContent(): array
     {
         return $this->content;
+    }
+
+    /**
+     * Getter for $message property
+     *
+     * @return mixed
+     **/
+    public function getMessage(): mixed
+    {
+        return $this->message;
+    }
+
+    /**
+     * Entry point for the PDF2CSV tool
+     *
+     * @return bool
+     **/
+    public function convertPdf(): bool
+    {
+        if (!$this->readPdf()) {
+            return false;
+        }
+
+        if (!$this->parsePdf()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * PDFs must be read to be parsed
+     *
+     * @return bool
+     **/
+    private function readPdf(): bool
+    {
+        try {
+            $pdfParser = new \Smalot\PdfParser\Parser();
+            $pdf = $pdfParser->parseFile($this->pdfFile);
+            $this->pages = count($pdf->getPages());
+            $this->firstPage = 0;
+
+            return true;
+        } catch (Exception $e) {
+            $this->message = $e;
+            return false;
+        }
+    }
+
+    /**
+     * PDF will now be parsed based on the given type
+     *
+     * @return bool
+     **/
+    private function parsePdf(): bool
+    {
+        try {
+            if ($this->pdfType === 'InvoiceRegister') {
+                $pdfText = Pdf::getText(
+                    $this->pdfFile,
+                    null,
+                    ['layout', "f {$this->pages}", "l {$this->pages}"]
+                );
+                $this->content = explode(PHP_EOL, $pdfText);
+            } elseif ($this->pdfType === 'GeneralJournal') {
+                $pdfText = Pdf::getText(
+                    $this->pdfFile,
+                    null,
+                    ['layout', "f {$this->firstPage}", "l {$this->pages}"]
+                );
+                $this->content = explode(PHP_EOL, $pdfText);
+            } else {
+                $this->message = 'Invalid PDF type!';
+                return false;
+            }
+            return true;
+        } catch (Exception $e) {
+            $this->message = $e;
+            return false;
+        }
     }
 }

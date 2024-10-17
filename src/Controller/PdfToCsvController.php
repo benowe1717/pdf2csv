@@ -85,6 +85,7 @@ class PdfToCsvController extends AbstractController
             // Start conversion
             $pdfToCsv->setPdfFile($fileAttachment);
             $pdfToCsv->setPdfType($pdfType->getName());
+            $pdfToCsv->convertPdf();
             dd($pdfToCsv);
         }
 
