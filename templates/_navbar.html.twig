@@ -28,6 +28,11 @@
                 <li class="nav-item">
                     <a class="nav-link {{ route == 'app_contact' ? 'active' }}" href="{{ path('app_contact') }}">Contact</a>
                 </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ route == 'app_admin' ? 'active' }}" href="{{ path('app_admin') }}">Admin</a>
+                    </li>
+                    {% endif %}
                 {% endif %}
             </ul>
 
