@@ -20,6 +20,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\CreateUserType;
 use App\Form\DeleteUserType;
+use App\Form\ResetPasswordType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -28,6 +29,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
+use SymfonyCasts\Bundle\ResetPassword\Exception\TooManyPasswordRequestsException;
+use SymfonyCasts\Bundle\ResetPassword\Model\ResetPasswordToken;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 /**
  * Symfony Controller for /admin Route
@@ -44,16 +49,23 @@ use Symfony\Component\Routing\Attribute\Route;
  **/
 class AdminController extends AbstractController
 {
+    use ResetPasswordControllerTrait;
+
     private EntityManagerInterface $entityManager;
+    private ResetPasswordHelperInterface $resetPasswordHelper;
 
     /**
      * ResetPasswordController constructor
      *
-     * @param EntityManagerInterface $entityManager Entity Manager helper
+     * @param EntityManagerInterface       $entityManager       Entity Manager helper
+     * @param ResetPasswordHelperInterface $resetPasswordHelper Reset Password
      **/
-    public function __construct(EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ResetPasswordHelperInterface $resetPasswordHelper
+    ) {
         $this->entityManager = $entityManager;
+        $this->resetPasswordHelper = $resetPasswordHelper;
     }
 
     /**
@@ -78,6 +90,18 @@ class AdminController extends AbstractController
     {
         $userRepository = $this->entityManager->getRepository(User::class);
         return $userRepository->getAllUnprivilegedUsers();
+    }
+
+    /**
+     * Generate a password reset token for a specific User entity
+     *
+     * @param User $user The user to password reset
+     *
+     * @return ResetPasswordToken
+     **/
+    private function generatePasswordResetToken(User $user): ResetPasswordToken
+    {
+        return $this->resetPasswordHelper->generateResetToken($user);
     }
 
     /**
@@ -164,11 +188,52 @@ class AdminController extends AbstractController
         }
         // End delete-user Tab
 
+        // Start reset-password Tab
+        $resetUser = new User();
+
+        $resetUserForm = $this->createForm(
+            ResetPasswordType::class,
+            $resetUser
+        );
+        $resetUserForm->handleRequest($request);
+
+        $errors = $resetUserForm->getErrors(true);
+        foreach ($errors as $error) {
+            $this->addFlash('resetFormErrors', $error->getMessage());
+        }
+
+        if ($resetUserForm->isSubmitted() && $resetUserForm->isValid()) {
+            /**
+             * This is the full App\Entity\User object
+             *
+             * @var User $resetUser
+             **/
+            $resetUser = $resetUserForm->get('email')->getData();
+            try {
+                $resetToken = $this->generatePasswordResetToken($resetUser);
+                $token = $resetToken->getToken();
+                $this->setTokenObjectInSession($resetToken);
+
+                $this->addFlash('reset_token', $token);
+                $msg = 'Reset password token successfully generated! ';
+                $msg .= 'Please click on the Reset Password? tab to ';
+                $msg .= 'retrieve the URL!';
+                $this->addFlash('resetFormSuccess', $msg);
+            } catch (TooManyPasswordRequestsException $e) {
+                $msg = 'User already has an active password reset request!';
+                $this->addFlash('resetFormErrors', $msg);
+            }
+
+            return $this->redirectToRoute('app_admin');
+        }
+        // End reset-password Tab
+
         return $this->render(
             'admin/index.html.twig',
             [
                 'create_user_form' => $createUserForm,
                 'delete_user_form' => $deleteUserForm,
+                'reset_user_form' => $resetUserForm,
             ]
         );
     }

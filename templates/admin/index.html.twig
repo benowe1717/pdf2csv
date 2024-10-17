@@ -30,6 +30,18 @@
             <p>{{ msg }}</p>
         </div>
         {% endfor %}
+
+        {% for error in app.flashes('resetFormErrors') %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+        {% endfor %}
+
+        {% for msg in app.flashes('resetFormSuccess') %}
+        <div class="alert alert-success">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
     </div>
 
     <div class="col-lg-6 mx-auto">
