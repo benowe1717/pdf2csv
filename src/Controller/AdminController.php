@@ -24,9 +24,12 @@ use App\Form\ResetPasswordType;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
@@ -109,13 +112,15 @@ class AdminController extends AbstractController
      *
      * @param Request                     $request        The http request
      * @param UserPasswordHasherInterface $passwordHasher Password Hasher
+     * @param MailerInterface             $mailer         The mailer interface
      *
      * @return Response
      **/
     #[Route('/admin', name: 'app_admin')]
     public function index(
         Request $request,
-        UserPasswordHasherInterface $passwordHasher
+        UserPasswordHasherInterface $passwordHasher,
+        MailerInterface $mailer
     ): Response {
         // Start create-user Tab
         $newUser = new User();
@@ -146,6 +151,36 @@ class AdminController extends AbstractController
             try {
                 $this->entityManager->flush();
                 $this->addFlash('createFormSuccess', 'User created successfully!');
+
+                $resetToken = $this->generatePasswordResetToken($newUser);
+                $welcomeToken = $resetToken->getToken();
+                $expirationKey = $resetToken->getExpirationMessageKey();
+                $expirationMessage = $resetToken->getExpirationMessageData();
+
+                // This has to be done LAST
+                // No other things can be done with the token after this
+                $this->setTokenObjectInSession($resetToken);
+
+                $sendEmail = (new TemplatedEmail())
+                    ->from(
+                        new Address(
+                            'alerts@projecttiy.com',
+                            'PDF2CSV Notifications'
+                        )
+                    )
+                    ->to((string) $email)
+                    ->subject('Welcome to PDF to CSV!')
+                    ->htmlTemplate('admin/welcome_email.html.twig')
+                    ->context(
+                        [
+                            'username' => $newUser->getEmail(),
+                            'welcome_token' => $welcomeToken,
+                            'expiration_key' => $expirationKey,
+                            'expiration_message' => $expirationMessage
+                        ]
+                    );
+                $mailer->send($sendEmail);
+
                 return $this->redirectToRoute('app_admin');
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('createFormErrors', $e->getMessage());

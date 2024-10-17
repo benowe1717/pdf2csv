@@ -1,0 +1,21 @@
+{% apply inline_css(source('@styles/app.output.css')) %}
+<div class="px-4 py-5 my-5">
+    <p class="fw-bold text-center text-wrap mb-2">Welcome to...</p>
+    <h1 class="fw-bold text-center text-wrap mb-2">PDF to CSV</h1>
+    <h4 class="fw-bold text-center text-wrap mb-4">by Project TIY</h4>
+
+    <div class="col-lg-6 mx-auto text-start">
+        <p class="lead mb-4">An account has just been created for you! Please see the details below:</p>
+        <p class="lead mb-2"><strong>Username</strong>: {{ username }}</p>
+        <p class="lead mb-4">
+            <strong>Password</strong>: <a class="link-warning" href="{{ url('app_reset_password', {token: welcome_token}) }}">{{ url('app_reset_password', {token: welcome_token}) }}</a>
+        </p>
+    </div>
+
+    <div class="col-lg-6 mx-auto text-start">
+        <p class="lead mb-4">This link will expire in <strong>{{ expiration_key|trans(expiration_message, 'ResetPasswordBundle') }}</strong>.</p>
+        <p class="lead mb-4">If you couldn't get to this link in time, do not worry! Simply navigate to <a class="link-primary" href="{{ url('app_forgot_password_request') }}">this link</a> to start the Password Reset process.</p>
+    </div>
+
+</div>
+{% endapply %}
