@@ -5,6 +5,21 @@
 {% block body %}
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold text-body-emphasis">PDF To CSV Converter</h1>
+
+    <div class="col-lg-6 mx-auto text-start">
+        {% for error in app.flashes('pdfUploadErrors') %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+        {% endfor %}
+
+        {% for msg in app.flashes('pdfUploadSuccess') %}
+        <div class="alert alert-success">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
     <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">
             To use the PDF To CSV Converter, select the appropriate PDF Type. This will configure the tool to extract the data from the right pages. Once you have set the PDF Type, upload the PDF file and click the <strong>Convert</strong> button. The tool will do its work and give you a download option once the conversion is complete.

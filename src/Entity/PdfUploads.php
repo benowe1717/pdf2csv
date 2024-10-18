@@ -3,18 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\PdfUploadsRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: PdfUploadsRepository::class)]
 class PdfUploads
 {
     #[ORM\Id]
-    #[ORM\Column(type: UuidType::NAME, unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    private ?Uuid $id = null;
+    #[ORM\Column]
+    #[ORM\GeneratedValue]
+    private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'pdfUploads')]
     private ?User $user = null;
@@ -28,7 +26,10 @@ class PdfUploads
     #[ORM\ManyToOne(inversedBy: 'pdfUploads')]
     private ?PdfUploadResults $result = null;
 
-    public function getId(): ?Uuid
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $detailedErrorMessage = null;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -77,6 +78,18 @@ class PdfUploads
     public function setResult(?PdfUploadResults $result): static
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getDetailedErrorMessage(): ?string
+    {
+        return $this->detailedErrorMessage;
+    }
+
+    public function setDetailedErrorMessage(?string $detailedErrorMessage): static
+    {
+        $this->detailedErrorMessage = $detailedErrorMessage;
 
         return $this;
     }
