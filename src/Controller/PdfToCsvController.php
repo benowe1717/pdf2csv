@@ -16,9 +16,12 @@
 
 namespace App\Controller;
 
+use App\Entity\PdfUploadResults;
 use App\Entity\PdfUploads;
 use App\Form\PdfUploadType;
 use App\Service\PdfToCsv;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,11 +37,23 @@ use Symfony\Component\Routing\Attribute\Route;
  * @author    Benjamin Owen <benjamin@projecttiy.com>
  * @copyright 2024 Benjamin Owen
  * @license   https://www.gnu.org/licenses/gpl-3.0.en.html#license-text GNU GPLv3
- * @version   Release: 0.0.2
+ * @version   Release: 0.0.3
  * @link      https://github.com/benowe1717/pdf2csv
  **/
 class PdfToCsvController extends AbstractController
 {
+    private $entityManager;
+
+    /**
+     * ResetPasswordController constructor
+     *
+     * @param EntityManagerInterface $entityManager Entity Manager helper
+     **/
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     /**
      * Generate the current Unix Timestamp to store with PdfUploads Entity
      *
@@ -47,6 +62,20 @@ class PdfToCsvController extends AbstractController
     private function getCurrentTime(): int
     {
         return time();
+    }
+
+    /**
+     * Get the PdfUploadResult entity based on a specific result
+     *
+     * @param string $result The result I want to filter for
+     *
+     * @return ?PdfUploadResults
+     **/
+    private function getUploadResult(string $result): ?PdfUploadResults
+    {
+        $resultRepository = $this
+            ->entityManager->getRepository(PdfUploadResults::class);
+        return $resultRepository->findOneBy(['name' => $result]);
     }
 
     /**
@@ -83,10 +112,35 @@ class PdfToCsvController extends AbstractController
             $pdfUpload->setUploadTime($this->getCurrentTime());
 
             // Start conversion
-            $pdfToCsv->setPdfFile($fileAttachment);
-            $pdfToCsv->setPdfType($pdfType->getName());
-            $pdfToCsv->convertPdf();
-            dd($pdfToCsv);
+            try {
+                $pdfToCsv->setPdfFile($fileAttachment);
+                $pdfToCsv->setPdfType($pdfType->getName());
+                $result = $pdfToCsv->convertPdf();
+
+                if (!$result) {
+                    $this->addFlash('pdfUploadErrors', $pdfToCsv->getMessage());
+                    $pdfResult = $this->getUploadResult('Failed');
+                    $pdfUpload->setResult($pdfResult);
+                }
+
+                $this->addFlash('pdfUploadSuccess', 'PDF converted successfully!');
+                $pdfResult = $this->getUploadResult('Success');
+                $pdfUpload->setResult($pdfResult);
+            } catch (Exception $e) {
+                $this->addFlash(
+                    'pdfUploadErrors',
+                    'Unable to convert PDF! Please contact the System Administrator!'
+                );
+
+                $pdfResult = $this->getUploadResult('Failed');
+                $pdfUpload->setResult($pdfResult);
+                $pdfUpload->setDetailedErrorMessage($e);
+            }
+
+            $this->entityManager->persist($pdfUpload);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('app_pdftocsv');
         }
 
         return $this->render(
