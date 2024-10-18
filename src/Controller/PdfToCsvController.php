@@ -16,6 +16,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CsvDownload;
 use App\Entity\PdfUploadResults;
 use App\Entity\PdfUploads;
 use App\Form\PdfUploadType;
@@ -39,7 +40,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * @author    Benjamin Owen <benjamin@projecttiy.com>
  * @copyright 2024 Benjamin Owen
  * @license   https://www.gnu.org/licenses/gpl-3.0.en.html#license-text GNU GPLv3
- * @version   Release: 0.0.4
+ * @version   Release: 0.0.5
  * @link      https://github.com/benowe1717/pdf2csv
  **/
 class PdfToCsvController extends AbstractController
@@ -148,9 +149,18 @@ class PdfToCsvController extends AbstractController
                     );
                 }
 
-                $downloadLink = 'http://localhost:8000/downloads';
-                $downloadLink .= "/{$csvWriter->getFilename()}";
-                $this->addFlash('downloadLink', $downloadLink);
+                $this->addFlash('fileDownload', $csvWriter->getFilename());
+
+                // Update the database to track expiration
+                $csvDownload = new CsvDownload();
+                $csvDownload->setFilename($csvWriter->getFilename());
+                $csvDownload->setCreationTime($csvWriter->getCreationTime());
+                $csvDownload->setExpiresAt($csvWriter->getExpiresAt());
+                $csvDownload->setNumberOfDownloads(0);
+                $csvDownload->setExpired(false);
+
+                $this->entityManager->persist($csvDownload);
+                $this->entityManager->flush();
             } catch (Exception $e) {
                 $this->addFlash(
                     'pdfUploadErrors',
