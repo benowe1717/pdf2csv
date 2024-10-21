@@ -4,7 +4,7 @@ PHP=`which php`
 COMPOSER=`which composer`
 
 BINARIES=("php" "composer")
-WORKERS=("async")
+WORKERS=("async" "scheduler_main")
 TIME_LIMIT="3600"
 
 APP_ENV="prod"

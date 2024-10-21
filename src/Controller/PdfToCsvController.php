@@ -16,13 +16,16 @@
 
 namespace App\Controller;
 
+use App\Entity\CsvDownload;
 use App\Entity\PdfUploadResults;
 use App\Entity\PdfUploads;
 use App\Form\PdfUploadType;
+use App\Service\CsvWriter;
 use App\Service\PdfToCsv;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,7 +40,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * @author    Benjamin Owen <benjamin@projecttiy.com>
  * @copyright 2024 Benjamin Owen
  * @license   https://www.gnu.org/licenses/gpl-3.0.en.html#license-text GNU GPLv3
- * @version   Release: 0.0.3
+ * @version   Release: 0.0.5
  * @link      https://github.com/benowe1717/pdf2csv
  **/
 class PdfToCsvController extends AbstractController
@@ -81,14 +84,20 @@ class PdfToCsvController extends AbstractController
     /**
      * /app_pdftocsv Route
      *
-     * @param Request  $request  The http request
-     * @param PdfToCsv $pdfToCsv The PDF2CSV Converter Service
+     * @param Request   $request      The http request
+     * @param PdfToCsv  $pdfToCsv     The PDF2CSV Converter Service
+     * @param CsvWriter $csvWriter    The CSV Writer Service
+     * @param Autowire  $downloadsDir The download directory
      *
      * @return Response
      **/
     #[Route('/pdf2csv', name: 'app_pdftocsv', methods: ['GET', 'POST'])]
-    public function index(Request $request, PdfToCsv $pdfToCsv): Response
-    {
+    public function index(
+        Request $request,
+        PdfToCsv $pdfToCsv,
+        CsvWriter $csvWriter,
+        #[Autowire('%downloads_dir%')] string $downloadsDir
+    ): Response {
         $pdfUpload = new PdfUploads();
 
         $pdfUploadForm = $this->createForm(
@@ -126,6 +135,32 @@ class PdfToCsvController extends AbstractController
                 $this->addFlash('pdfUploadSuccess', 'PDF converted successfully!');
                 $pdfResult = $this->getUploadResult('Success');
                 $pdfUpload->setResult($pdfResult);
+
+                // Write the converted data into downloads
+                $result = $csvWriter->createCsv(
+                    (string) $downloadsDir,
+                    $pdfToCsv->getExtractedData()
+                );
+
+                if (!$result) {
+                    $this->addFlash(
+                        'csvWriterErrors',
+                        'Unable to create CSV! Please contact the System Administrator!'
+                    );
+                }
+
+                $this->addFlash('fileDownload', $csvWriter->getFilename());
+
+                // Update the database to track expiration
+                $csvDownload = new CsvDownload();
+                $csvDownload->setFilename($csvWriter->getFilename());
+                $csvDownload->setCreationTime($csvWriter->getCreationTime());
+                $csvDownload->setExpiresAt($csvWriter->getExpiresAt());
+                $csvDownload->setNumberOfDownloads(0);
+                $csvDownload->setExpired(false);
+
+                $this->entityManager->persist($csvDownload);
+                $this->entityManager->flush();
             } catch (Exception $e) {
                 $this->addFlash(
                     'pdfUploadErrors',

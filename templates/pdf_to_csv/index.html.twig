@@ -47,5 +47,16 @@
         </form>
     </div>
 
+    <div class="col-lg-6 mx-auto">
+        {% for file in app.flashes('fileDownload') %}
+        <p class="lead mb-2">
+            Your CSV is now ready for download! You can click on <a class="link-warning" href="{{ url('app_download', {filename: file}) }}" target="_blank">this link</a> to retrieve it.
+        </p>
+        <p class="lead mb-4">
+            Please note that the download link above will only be available for <strong>4 hours</strong>! If you need this data again after the 4 hours are up, you must upload the PDF and convert again.
+        </p>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}
