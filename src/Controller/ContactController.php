@@ -44,7 +44,7 @@ class ContactController extends AbstractController
      *
      * @return Response
      **/
-    #[Route('/contact', name: 'app_contact', methods: ['GET'])]
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $newMessage = array();
@@ -58,7 +58,7 @@ class ContactController extends AbstractController
         }
 
         if ($newMessageForm->isSubmitted() && $newMessageForm->isValid()) {
-            dd($newMessageForm->getData());
+            $newMessage = $newMessageForm->getData();
         }
 
         return $this->render(
