@@ -66,18 +66,25 @@
     </div>
 
     <div class="col-lg-6 mx-auto my-5 border rounded p-3 text-start">
-        <form method="post" action="">
+        <form method="{{ new_message_form.vars.method }}" id="{{ new_message_form.vars.id }}" name="{{ new_message_form.vars.full_name }}" action="{{ new_message_form.vars.action }}">
             <div class="mb-3">
-                <input class="form-control" type="text" placeholder="Name" disabled>
+                <label class="form-label" for="{{ new_message_form.name.vars.id }}">{{ new_message_form.name.vars.label }}</label>
+                <input class="form-control" id="{{ new_message_form.name.vars.id }}" name="{{ new_message_form.name.vars.full_name }}" value="{{ new_message_form.name.vars.value }}" type="text" placeholder="Full Name" autofocus required>
             </div>
             <div class="mb-3">
-                <input class="form-control" type="text" placeholder="Email" disabled>
+                <label class="form-label" for="{{ new_message_form.email.vars.id }}">{{ new_message_form.email.vars.label }}</label>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <input class="form-control" id="{{ new_message_form.email.vars.id }}" name="{{ new_message_form.email.vars.full_name }}" value="{{ app.user.email }}" type="text" placeholder="email@domain.com" required>
+                {% else %}
+                <input class="form-control" id="{{ new_message_form.email.vars.id }}" name="{{ new_message_form.email.vars.full_name }}" value="{{ new_message_form.email.vars.value }}" type="text" placeholder="email@domain.com" required>
+                {% endif %}
             </div>
             <div class="mb-3">
-                <textarea class="form-control" rows="6" placeholder="I need help with..." disabled></textarea>
+                <label class="form-label" for="{{ new_message_form.message.vars.id }}">{{ new_message_form.message.vars.label }}</label>
+                <textarea class="form-control" id="{{ new_message_form.message.vars.id }}" name="{{ new_message_form.message.vars.full_name }}" rows="6" placeholder="I need help with..."></textarea>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary disabled" type="submit">Submit!</button>
+                <button class="btn btn-primary" id="{{ new_message_form.submit.vars.id }}" name="{{ new_message_form.submit.vars.full_name }}">{{ new_message_form.submit.vars.label }}</button>
             </div>
         </form>
     </div>
