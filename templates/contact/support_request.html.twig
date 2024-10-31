@@ -1,0 +1,12 @@
+{% apply inline_css(source('@styles/app.output.css')) %}
+<div class="px-4 py-5 my-5">
+    <h1 class="fw-bold text-center text-wrap mb-2">New PDF2CSV Support Request</h1>
+
+    <div class="col-lg-6 mx-auto text-start">
+        <p class="lead mb-4">A new Support Request has just been created! Please see the details below:</p>
+        <p class="lead mb-2"><strong>Name</strong>: {{ full_name }}</p>
+        <p class="lead mb-2"><strong>Email</strong>: {{ email_address}}</p>
+        <p class="lead mb-4">{{ message }}</p>
+    </div>
+</div>
+{% endapply %}

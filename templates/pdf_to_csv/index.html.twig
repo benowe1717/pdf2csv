@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PDF2CSV{% endblock %}
+
+{% block body %}
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">PDF To CSV Converter</h1>
+
+    <div class="col-lg-6 mx-auto text-start">
+        {% for error in app.flashes('pdfUploadErrors') %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+        {% endfor %}
+
+        {% for msg in app.flashes('pdfUploadSuccess') %}
+        <div class="alert alert-success">
+            <p>{{ msg }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+            To use the PDF To CSV Converter, select the appropriate PDF Type. This will configure the tool to extract the data from the right pages. Once you have set the PDF Type, upload the PDF file and click the <strong>Convert</strong> button. The tool will do its work and give you a download option once the conversion is complete.
+        </p>
+    </div>
+
+    <div class="col-lg-6 mx-auto my-5 border rounded p-3">
+        <form method="{{ pdf_upload_form.vars.method }}" id="{{ pdf_upload_form.vars.id }}" name="{{ pdf_upload_form.vars.full_name }}" action="{{ pdf_upload_form.vars.action }}" enctype="multipart/form-data">
+            <div class="mb-3 text-start">
+                <label class="form-label" for="{{ pdf_upload_form.pdfType.vars.id }}">{{ pdf_upload_form.pdfType.vars.label }}</label>
+                <select class="form-select" id="{{ pdf_upload_form.pdfType.vars.id }}" name="{{ pdf_upload_form.pdfType.vars.full_name }}">
+                    {% for choice in pdf_upload_form.pdfType.vars.choices %}
+                    <option value="{{ choice.value }}">{{ choice.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label" for="{{ pdf_upload_form.fileAttachment.vars.id }}">{{ pdf_upload_form.fileAttachment.vars.label }}</label>
+                <input class="form-control" id="{{ pdf_upload_form.fileAttachment.vars.id }}" name="{{ pdf_upload_form.fileAttachment.vars.full_name }}" type="file" accept="application/pdf" required>
+            </div>
+            <div class="mb-3 text-start">
+                <button class="btn btn-primary" id="{{ pdf_upload_form.submit.vars.id }}" name="{{ pdf_upload_form.submit.vars.full_name }}" type="submit">{{ pdf_upload_form.submit.vars.label }}</button>
+            </div>
+            <input id="{{ pdf_upload_form._token.vars.id }}" name="{{ pdf_upload_form._token.vars.full_name }}" value="{{ pdf_upload_form._token.vars.value }}" type="hidden">
+        </form>
+    </div>
+
+    <div class="col-lg-6 mx-auto">
+        {% for file in app.flashes('fileDownload') %}
+        <p class="lead mb-2">
+            Your CSV is now ready for download! You can click on <a class="link-warning" href="{{ url('app_download', {filename: file}) }}" target="_blank">this link</a> to retrieve it.
+        </p>
+        <p class="lead mb-4">
+            Please note that the download link above will only be available for <strong>4 hours</strong>! If you need this data again after the 4 hours are up, you must upload the PDF and convert again.
+        </p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+/* assets/styles/app.scss */
+
+/* $red: #fc030b; */
+/**/
+/* body { */
+/*   background: $red; */
+/* } */
+
+/* Override some Bootstrap variables */
+
+$white: #fefbff;
+$black: #242423;
+$light-gray: #e8eddf;
+$slate: #2a3439;
+$gray: #cfdbd5;
+$gray-dark: #333533;
+$blue: #075780;
+$yellow: #ba6d41;
+$red: #ba160c;
+
+$light: $white;
+$dark: $black;
+$primary: $blue;
+$warning: $yellow;
+$danger: $red;
+
+$body-bg: $light;
+$body-color: $dark;
+$body-bg-dark: $dark;
+$body-color-dark: $light;
+$body-tertiary-bg: $gray;
+$body-tertiary-bg-dark: $gray-dark;
+
+.nav-link.active {
+    border-bottom: 2px solid var(--bs-highlight-color);
+}
+
+@import '../../vendor/twbs/bootstrap/scss/bootstrap';

@@ -1,0 +1,17 @@
+composer dump-env prod
+composer install --no-dev --optimize-autoloader
+php bin/console doctrine:migrations:migrate
+php bin/console importmap:install
+php bin/console sass:build
+php bin/console asset-map:compile
+php bin/console cache:clear
+
+update php.ini directives:
+    - session.auto_start = 0
+    - session.gc_probability = 1
+    - session.gc_divisor = 1000
+    - session.gc_maxlifetime = 3600
+
+ensure pdftotext binary is installed
+    - apt install pdftotext
+    - apk add poppler-utils
