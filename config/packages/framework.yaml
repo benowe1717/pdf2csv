@@ -13,6 +13,10 @@ framework:
     #esi: true
     #fragments: true
 
+    # Reverse proxy
+    trusted_proxies: '172.100.1.0/24'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
+
 when@test:
     framework:
         test: true

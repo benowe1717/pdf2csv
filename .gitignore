@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+nohup.out
 /.env
 /.env.test
 /.env.local
