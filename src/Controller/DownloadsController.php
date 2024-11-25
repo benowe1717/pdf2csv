@@ -71,7 +71,7 @@ class DownloadsController extends AbstractController
      *
      * @return Response
      **/
-    #[Route('/downloads/{filename}', name: 'app_download')]
+    #[Route('/downloads/{filename}', name: 'app_download', schemes: ['https'])]
     public function download(
         string $filename,
         #[Autowire('%downloads_dir%')] string $downloadsDir
