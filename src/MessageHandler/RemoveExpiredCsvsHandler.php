@@ -3,7 +3,7 @@
 /**
  * Symfony Message for Removing Expired CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  MessageHandler
  * @package   PDF2CSV
@@ -25,7 +25,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 /**
  * Symfony Message for Removing Expired CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  MessageHandler
  * @package   PDF2CSV

@@ -3,7 +3,7 @@
 /**
  * Doctrine Data Fixture for User Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  DataFixture
  * @package   PDF2CSV
@@ -24,7 +24,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * Doctrine Data Fixture for User Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  DataFixture
  * @package   PDF2CSV

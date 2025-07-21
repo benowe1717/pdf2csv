@@ -4,7 +4,7 @@
 /**
  * Symfony Controller for /admin Route
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Controller
  * @package   PDF2CSV
@@ -40,7 +40,7 @@ use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 /**
  * Symfony Controller for /admin Route
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Controller
  * @package   PDF2CSV

@@ -3,7 +3,7 @@
 /**
  * Doctrine Repository for User Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Repository
  * @package   PDF2CSV
@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 /**
  * Doctrine Repository for User Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Repository
  * @package   PDF2CSV

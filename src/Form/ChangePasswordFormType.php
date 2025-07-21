@@ -3,7 +3,7 @@
 /**
  * Symfony FormType for Password Changes
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Form
  * @package   PDF2CSV
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints\PasswordStrength;
 /**
  * Symfony FormType for Password Changes
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Form
  * @package   PDF2CSV

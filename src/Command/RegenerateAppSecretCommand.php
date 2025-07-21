@@ -3,7 +3,7 @@
 /**
  * Symfony Command for regenerating the App Secret
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Command
  * @package   PDF2CSV
