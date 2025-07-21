@@ -3,7 +3,7 @@
 /**
  * Doctrine Data Fixture for PdfUploadResults Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  DataFixture
  * @package   PDF2CSV
@@ -23,7 +23,7 @@ use Doctrine\Persistence\ObjectManager;
 /**
  * Doctrine Data Fixture for PdfUploadResults Entity
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  DataFixture
  * @package   PDF2CSV

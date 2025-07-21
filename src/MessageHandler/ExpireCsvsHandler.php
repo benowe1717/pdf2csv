@@ -3,7 +3,7 @@
 /**
  * Symfony Message Handler for ExpireCsvs Message
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  MessageHandler
  * @package   PDF2CSV
@@ -24,7 +24,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 /**
  * Symfony Message Handler for ExpireCsvs Message
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  MessageHandler
  * @package   PDF2CSV

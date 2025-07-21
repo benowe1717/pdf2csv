@@ -3,7 +3,7 @@
 /**
  * Symfony Service for converting PDFs to CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Service
  * @package   PDF2CSV
@@ -22,7 +22,7 @@ use Spatie\PdfToText\Pdf;
 /**
  * Symfony Service for converting PDFs to CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Service
  * @package   PDF2CSV
