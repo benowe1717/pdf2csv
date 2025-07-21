@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
+            <link rel="preload" href="{{ preload(asset('styles/app.scss'), {as: 'style'}) }}" as="style">
             <link rel="stylesheet" href="{{ asset('styles/app.scss') }}">
         {% endblock %}
 
