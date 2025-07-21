@@ -3,7 +3,7 @@
 /**
  * Symfony Scheduler for Expiring CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Scheduler
  * @package   PDF2CSV
@@ -28,7 +28,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 /**
  * Symfony Scheduler for Expiring CSVs
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Scheduler
  * @package   PDF2CSV

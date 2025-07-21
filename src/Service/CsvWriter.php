@@ -3,7 +3,7 @@
 /**
  * Symfony Service for writing CSVs to disk
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Service
  * @package   PDF2CSV
@@ -21,7 +21,7 @@ use Exception;
 /**
  * Symfony Service for writing CSVs to disk
  *
- * PHP version 8.3
+ * PHP version 8.4
  *
  * @category  Service
  * @package   PDF2CSV
